@@ -1,0 +1,620 @@
+/* ============================================================
+   주간보고 관리 디자인 시스템
+   방향: 한국 업무 문서(장부, 공문)의 정갈함
+   - 종이: 차분한 장부 회색
+   - 잉크: 남색에 가까운 먹색
+   - 포인트: 코발트 블루 (도장 느낌의 빨강은 이슈 표시에만)
+   ============================================================ */
+
+:root {
+  --paper: #eff1f5;
+  --surface: #ffffff;
+  --surface-soft: #f7f8fb;
+  --line: #dfe3ea;
+  --line-strong: #cbd1dc;
+
+  --ink: #1b2233;
+  --ink-2: #525a6b;
+  --ink-3: #8b93a3;
+
+  --cobalt: #24439e;
+  --cobalt-strong: #1b3480;
+  --cobalt-soft: #e8edfa;
+
+  --seal: #c0362c;
+  --seal-soft: #fbeae8;
+  --seal-line: #f0c7c2;
+
+  --radius: 14px;
+  --shadow:
+    0 1px 2px rgba(27, 34, 51, 0.05),
+    0 10px 28px -14px rgba(27, 34, 51, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family:
+    'Pretendard Variable', Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', system-ui,
+    sans-serif;
+  background:
+    radial-gradient(1100px 460px at 85% -12%, rgba(36, 67, 158, 0.07), transparent 60%),
+    var(--paper);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #ccd8f4;
+}
+
+/* ---------- 상단 바 ---------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(239, 241, 245, 0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar-inner {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 13px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-mark {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(150deg, var(--cobalt), #3d5cc0);
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+  user-select: none;
+}
+
+.brand h1 {
+  font-size: 18px;
+  margin: 0;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.brand p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--ink-3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ---------- 레이아웃 ---------- */
+
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 28px 24px 64px;
+}
+
+/* ---------- 버튼 ---------- */
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 650;
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s,
+    transform 0.05s;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--cobalt-soft);
+  outline-offset: 1px;
+}
+
+.btn-primary {
+  background: var(--cobalt);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: var(--cobalt-strong);
+}
+
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--line-strong);
+  color: var(--ink-2);
+}
+
+.btn-ghost:hover {
+  border-color: var(--cobalt);
+  color: var(--cobalt);
+}
+
+.btn-danger:hover {
+  border-color: var(--seal);
+  color: var(--seal);
+  background: var(--seal-soft);
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+/* ---------- 통계 카드 ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--cobalt);
+}
+
+.stat-card:nth-child(2)::before {
+  background: #23713d;
+}
+
+.stat-card:nth-child(3)::before {
+  background: #93610b;
+}
+
+.stat-card:nth-child(4)::before {
+  background: var(--seal);
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--ink-3);
+  font-weight: 650;
+}
+
+.stat-value {
+  font-size: 30px;
+  font-weight: 780;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.stat-value em {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-3);
+  margin-left: 4px;
+}
+
+/* ---------- 검색과 필터 ---------- */
+
+.toolbar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.search {
+  flex: 1 1 260px;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 14.5px;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-3);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--cobalt);
+  box-shadow: 0 0 0 3px var(--cobalt-soft);
+}
+
+select {
+  cursor: pointer;
+}
+
+/* ---------- 보고서 목록 ---------- */
+
+.report-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.report-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  box-shadow: var(--shadow);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+
+.report-card:hover {
+  border-color: #b7c3e6;
+  box-shadow:
+    0 2px 4px rgba(27, 34, 51, 0.06),
+    0 16px 34px -16px rgba(36, 67, 158, 0.24);
+}
+
+.card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.card-title-row h3 {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.card-range {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.card-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--ink-2);
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.chip-issue {
+  color: var(--seal);
+  background: var(--seal-soft);
+  border-color: var(--seal-line);
+}
+
+.card-snippet {
+  margin: 12px 0 0;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+
+/* ---------- 프로젝트 배지 ---------- */
+
+.badge {
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+
+.badge-0 {
+  background: #e8edfa;
+  color: #24439e;
+}
+
+.badge-1 {
+  background: #e4f2e8;
+  color: #23713d;
+}
+
+.badge-2 {
+  background: #fbf0dc;
+  color: #93610b;
+}
+
+.badge-3 {
+  background: #efe9fa;
+  color: #6740b4;
+}
+
+.badge-4 {
+  background: #fbe8ea;
+  color: #a63a4c;
+}
+
+.badge-5 {
+  background: #e2f1f1;
+  color: #146c6a;
+}
+
+/* ---------- 작성 폼 ---------- */
+
+.form-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 30px 32px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.form-head h2 {
+  margin: 0 0 4px;
+  font-size: 21px;
+  letter-spacing: -0.01em;
+}
+
+.form-sub {
+  margin: 0 0 24px;
+  color: var(--ink-3);
+  font-size: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.field-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.req {
+  font-size: 11px;
+  color: var(--cobalt);
+  background: var(--cobalt-soft);
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-weight: 700;
+}
+
+.field-help {
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+textarea {
+  min-height: 110px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.form-error {
+  color: var(--seal);
+  font-size: 13.5px;
+  background: var(--seal-soft);
+  border: 1px solid var(--seal-line);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin: 0 0 14px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ---------- 빈 상태 ---------- */
+
+.empty {
+  background: var(--surface);
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius);
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.empty h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+}
+
+.empty p {
+  margin: 0 0 18px;
+  color: var(--ink-3);
+}
+
+/* ---------- 미리보기 모달 ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 26, 37, 0.46);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: 16px;
+  width: min(840px, 100%);
+  height: min(85vh, 920px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 64px -16px rgba(0, 0, 0, 0.38);
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--line);
+  flex-wrap: wrap;
+}
+
+.modal-head h3 {
+  margin: 0;
+  font-size: 15.5px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-frame {
+  flex: 1;
+  border: 0;
+  width: 100%;
+  background: var(--paper);
+}
+
+/* ---------- 하단 안내 ---------- */
+
+.footnote {
+  margin-top: 26px;
+  text-align: center;
+  color: var(--ink-3);
+  font-size: 12.5px;
+}
+
+/* ---------- 반응형 ---------- */
+
+@media (max-width: 640px) {
+  .topbar-inner {
+    padding: 11px 16px;
+  }
+
+  .container {
+    padding: 20px 16px 56px;
+  }
+
+  .form-card {
+    padding: 22px 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .report-card {
+    padding: 16px 16px;
+  }
+
+  .modal-overlay {
+    padding: 10px;
+  }
+}
+
+/* ---------- 모션 최소화 설정 존중 ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
