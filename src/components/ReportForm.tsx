@@ -1,10 +1,12 @@
 import { useState } from 'react'
-import type { Report } from '../types'
+import type { Report, ReportSection, SectionType } from '../types'
+import { SECTION_LABELS, SECTION_TYPES } from '../types'
 import { mondayOf, thisMonday, weekLabel, weekRange } from '../lib/date'
+import { uid } from '../lib/storage'
 
 export type ReportDraft = Pick<
   Report,
-  'project' | 'weekStart' | 'done' | 'todo' | 'issues' | 'memo'
+  'project' | 'weekStart' | 'done' | 'todo' | 'issues' | 'memo' | 'sections'
 >
 
 interface Props {
@@ -21,9 +23,23 @@ export default function ReportForm({ initial, projects, onSave, onCancel }: Prop
   const [todo, setTodo] = useState(initial?.todo ?? '')
   const [issues, setIssues] = useState(initial?.issues ?? '')
   const [memo, setMemo] = useState(initial?.memo ?? '')
+  const [sections, setSections] = useState<ReportSection[]>(initial?.sections ?? [])
+  const [pendingType, setPendingType] = useState<SectionType>('idea')
   const [error, setError] = useState('')
 
   const monday = mondayOf(weekStart)
+
+  function addSection() {
+    setSections((prev) => [...prev, { id: uid(), type: pendingType, content: '' }])
+  }
+
+  function updateSection(id: string, content: string) {
+    setSections((prev) => prev.map((s) => (s.id === id ? { ...s, content } : s)))
+  }
+
+  function removeSection(id: string) {
+    setSections((prev) => prev.filter((s) => s.id !== id))
+  }
 
   function handleSubmit() {
     const p = project.trim()
@@ -31,7 +47,7 @@ export default function ReportForm({ initial, projects, onSave, onCancel }: Prop
       setError('프로젝트 이름을 입력해 주세요')
       return
     }
-    onSave({ project: p, weekStart: monday, done, todo, issues, memo })
+    onSave({ project: p, weekStart: monday, done, todo, issues, memo, sections })
   }
 
   return (
@@ -110,6 +126,50 @@ export default function ReportForm({ initial, projects, onSave, onCancel }: Prop
           placeholder="자유롭게 기록할 내용"
         />
       </label>
+
+      <div className="field">
+        <span className="field-label">추가 항목</span>
+        <span className="field-help">
+          그 주에 필요한 항목만 골라서 붙일 수 있습니다. 안 넣으면 보고서에 나오지 않습니다
+        </span>
+
+        {sections.map((s) => (
+          <div className="section-item" key={s.id}>
+            <div className="section-item-head">
+              <b>{SECTION_LABELS[s.type]}</b>
+              <button
+                type="button"
+                className="btn btn-sm btn-ghost btn-danger"
+                onClick={() => removeSection(s.id)}
+              >
+                삭제
+              </button>
+            </div>
+            <textarea
+              value={s.content}
+              onChange={(e) => updateSection(s.id, e.target.value)}
+              placeholder="한 줄에 하나씩 작성하면 미리보기에서 목록으로 정리됩니다"
+            />
+          </div>
+        ))}
+
+        <div className="section-add">
+          <select
+            value={pendingType}
+            onChange={(e) => setPendingType(e.target.value as SectionType)}
+            aria-label="추가할 항목 종류"
+          >
+            {SECTION_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {SECTION_LABELS[t]}
+              </option>
+            ))}
+          </select>
+          <button type="button" className="btn btn-ghost" onClick={addSection}>
+            + 항목 추가
+          </button>
+        </div>
+      </div>
 
       {error && <p className="form-error">{error}</p>}
 

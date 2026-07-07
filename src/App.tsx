@@ -36,7 +36,9 @@ export default function App() {
     const list = reports.filter((r) => {
       if (projectFilter !== 'all' && r.project !== projectFilter) return false
       if (!q) return true
-      const hay = `${r.project} ${r.done} ${r.todo} ${r.issues} ${r.memo}`.toLowerCase()
+      const sectionText = r.sections.map((s) => s.content).join(' ')
+      const hay =
+        `${r.project} ${r.done} ${r.todo} ${r.issues} ${r.memo} ${sectionText}`.toLowerCase()
       return hay.includes(q)
     })
     list.sort((a, b) =>

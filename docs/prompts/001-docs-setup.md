@@ -38,7 +38,7 @@ docs/prompts/_TEMPLATE.md, docs/prompts/000-baseline.md 가 이미 배치되어 
    형식은 docs/prompts/_TEMPLATE.md 를 따르고, 프롬프트 원문 블록에는
    지금 이 프롬프트를 한 글자도 바꾸지 않고 그대로 넣는다.
    실행 결과 절에는 실제 확인 결과를 채운다.
-4. docs/ROADMAP.md는 수정하지 않는다. 현재 위치는 그대로 "JK 정리 0단계"다.
+4. docs/ROADMAP.md는 수정하지 않는다. 현재 위치는 그대로 "확장 1단계 (HY)"다.
 
 [하지 말 것]
 - src/ 아래 코드 파일을 일절 수정하지 않는다

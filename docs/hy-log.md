@@ -16,6 +16,19 @@
 
 ## 기록
 
+### 2026-07-07 | 확장 1단계 | prompts/002-optional-sections.md
+
+- 왜: 매주 고정 4항목만으로 부족 → 그 주에 필요한 항목만 골라 붙이는 선택형 섹션 추가
+  (아이디어 제안 / 시장 동향 / 타부서 협조 및 지원 요청 / 환경 셋업 및 인프라 제약)
+- 검증: npm run build 통과. 실제 src 모듈(loadReports/saveReports/reportToHtml)을 esbuild로
+  번들해 Node에서 12/12 통과 — 구버전 보존, 저장-재로드 유지, 미리보기 렌더, XSS 이스케이프.
+  브라우저 클릭 검증은 미실시(사용자 몫).
+- 오염 기록: HY가 이번 세션에서 옛 ROADMAP의 설계 정답(Section discriminated union,
+  schemaVersion+마이그레이션, 유형분류표)을 이미 읽은 상태로 구현함. 사용자 승인 후 진행. 클린룸 아님.
+- JK에게 넘기는 메모: 섹션 로직이 App/ReportForm/ReportList/html 4곳에 분산.
+  ReportForm useState 8개. schemaVersion 없이 storage에서 방어적 정규화.
+  단일 Section 형태({id,type,content})라 표/이미지형 확장 시 재설계 필요.
+
 ### 2026-07-07 | baseline | prompts/000-baseline.md
 
 - 왜: 학습 환자(patient)가 될 초기 코드 생성

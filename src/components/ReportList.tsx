@@ -1,4 +1,5 @@
 import type { Report } from '../types'
+import { SECTION_LABELS } from '../types'
 import { formatDateTime, weekLabel, weekRange } from '../lib/date'
 import { splitLines } from '../lib/html'
 
@@ -43,6 +44,11 @@ export default function ReportList({ reports, onPreview, onEdit, onDelete }: Pro
               {issueItems.length > 0 && (
                 <span className="meta-chip chip-issue">이슈 {issueItems.length}건</span>
               )}
+              {r.sections.map((s) => (
+                <span className="meta-chip chip-section" key={s.id}>
+                  {SECTION_LABELS[s.type]}
+                </span>
+              ))}
             </div>
 
             {snippet !== '' && <p className="card-snippet">{snippet}</p>}

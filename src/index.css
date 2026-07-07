@@ -501,6 +501,53 @@ textarea {
   margin-top: 8px;
 }
 
+/* ---------- 선택형 추가 항목 ---------- */
+
+.section-item {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-soft);
+  padding: 12px 14px;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.section-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.section-item-head b {
+  font-size: 14px;
+  color: var(--ink);
+}
+
+.section-item textarea {
+  min-height: 84px;
+  background: var(--surface);
+}
+
+.section-add {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.section-add select {
+  flex: 1 1 220px;
+}
+
+.chip-section {
+  color: var(--cobalt);
+  background: var(--cobalt-soft);
+  border-color: #c9d6f4;
+}
+
 /* ---------- 빈 상태 ---------- */
 
 .empty {

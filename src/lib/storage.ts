@@ -8,10 +8,16 @@ export function loadReports(): Report[] {
     if (!raw) return []
     const parsed: unknown = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []
-    return parsed.filter(
-      (r): r is Report =>
-        typeof r === 'object' && r !== null && typeof (r as Report).id === 'string',
-    )
+    return parsed
+      .filter(
+        (r): r is Report =>
+          typeof r === 'object' && r !== null && typeof (r as Report).id === 'string',
+      )
+      .map((r) => ({
+        // 예전에 저장된 보고서에는 sections가 없다. 항상 배열로 맞춰서 그대로 열리게 한다
+        ...r,
+        sections: Array.isArray(r.sections) ? r.sections : [],
+      }))
   } catch {
     return []
   }

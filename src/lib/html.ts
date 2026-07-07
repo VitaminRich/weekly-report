@@ -1,4 +1,5 @@
 import type { Report } from '../types'
+import { SECTION_LABELS } from '../types'
 import { formatDateKorean, weekLabel, weekRange } from './date'
 
 export function escapeHtml(s: string): string {
@@ -37,6 +38,10 @@ export function reportToHtml(r: Report): string {
   const label = weekLabel(r.weekStart)
   const range = weekRange(r.weekStart)
   const updated = formatDateKorean(r.updatedAt)
+
+  const sectionsHtml = (r.sections ?? [])
+    .map((s) => `  <h2>${escapeHtml(SECTION_LABELS[s.type] ?? '추가 항목')}</h2>\n  ${listBlock(s.content)}`)
+    .join('\n')
 
   return `<!doctype html>
 <html lang="ko">
@@ -130,6 +135,7 @@ export function reportToHtml(r: Report): string {
   ${listBlock(r.issues)}
   <h2>메모</h2>
   ${paraBlock(r.memo)}
+${sectionsHtml}
   <footer><span>작성 기준일 ${updated}</span><span>주간보고 관리</span></footer>
 </div>
 </body>
